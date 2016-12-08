@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第五章、Docker仓库 | Lee Ho&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Docker&amp;#x4ED3;&amp;#x5E93;&amp;#x5206;&amp;#x4E3A;&amp;#x516C;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#x548C;&amp;#x79C1;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#xFF0C;&amp;#x4ED3;&amp;#x5E93;&amp;#x4E0E;&amp;#x6CE8;&amp;#x518C;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5BB9;&amp;#x6613;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章、Docker仓库">
+<meta property="og:url" content="http://yoursite.com/2016/12/08/docker-5/index.html">
+<meta property="og:site_name" content="Lee Ho's Blog">
+<meta property="og:description" content="Docker&amp;#x4ED3;&amp;#x5E93;&amp;#x5206;&amp;#x4E3A;&amp;#x516C;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#x548C;&amp;#x79C1;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#xFF0C;&amp;#x4ED3;&amp;#x5E93;&amp;#x4E0E;&amp;#x6CE8;&amp;#x518C;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5BB9;&amp;#x6613;&amp;">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/1.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/2.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/3.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/4.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/5.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/6.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/7.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/8.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/9.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/08/docker-5/img/10.png">
+<meta property="og:updated_time" content="2016-12-08T14:24:19.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第五章、Docker仓库">
+<meta name="twitter:description" content="Docker&amp;#x4ED3;&amp;#x5E93;&amp;#x5206;&amp;#x4E3A;&amp;#x516C;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#x548C;&amp;#x79C1;&amp;#x6709;&amp;#x4ED3;&amp;#x5E93;&amp;#xFF0C;&amp;#x4ED3;&amp;#x5E93;&amp;#x4E0E;&amp;#x6CE8;&amp;#x518C;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x5BB9;&amp;#x6613;&amp;">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/08/docker-5/img/1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Lee Ho&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/git_favicon.jpg">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/git_head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">忆虎思甜</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Walk steps step by step</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/home/index.html">博客首页</a></li>
+                        
+                            <li><a href="/works">作品展示</a></li>
+                        
+                            <li><a href="/about">留言打卡</a></li>
+                        
+                            <li><a href="/FrontEndGuide">前端导航</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/yihusitian" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/yi-hu-si-tian/activities" title="zhihu">zhihu</a>
+                            
+                                <a class="fl QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414255816&site=qq&menu=yes" title="QQ">QQ</a>
+                            
+                                <a class="fl wechat" target="_blank" href="/static/api/html/wechat.html" title="wechat">wechat</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/2747264602/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                            
+                                <a class="fl douban" target="_blank" href="https://www.douban.com/people/yihusitian/" title="douban">douban</a>
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=CnNjYn95Y35ja2RKbGVyZ2tjZiRpZWc" title="mail">mail</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Docker/" style="font-size: 10px;">Docker</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.facingsea.com/">Facingsea</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">热爱一切美好的事物，喜欢骑行 、玩轮滑、打乒乓，永远对新鲜事物充满兴趣</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">忆虎思甜</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/git_head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">忆虎思甜</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Walk steps step by step</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/home/index.html">博客首页</a></li>
+                
+                    <li><a href="/works">作品展示</a></li>
+                
+                    <li><a href="/about">留言打卡</a></li>
+                
+                    <li><a href="/FrontEndGuide">前端导航</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/yihusitian" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/yi-hu-si-tian/activities" title="zhihu">zhihu</a>
+                    
+                        <a class="QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414255816&site=qq&menu=yes" title="QQ">QQ</a>
+                    
+                        <a class="wechat" target="_blank" href="/static/api/html/wechat.html" title="wechat">wechat</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/2747264602/profile?topnav=1&wvr=6&is_all=1" title="weibo">weibo</a>
+                    
+                        <a class="douban" target="_blank" href="https://www.douban.com/people/yihusitian/" title="douban">douban</a>
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=CnNjYn95Y35ja2RKbGVyZ2tjZiRpZWc" title="mail">mail</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-docker-5" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/08/docker-5/" class="article-date">
+      <time datetime="2016-12-08T13:56:30.000Z" itemprop="datePublished">2016-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第五章、Docker仓库
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Docker&#x4ED3;&#x5E93;&#x5206;&#x4E3A;&#x516C;&#x6709;&#x4ED3;&#x5E93;&#x548C;&#x79C1;&#x6709;&#x4ED3;&#x5E93;&#xFF0C;&#x4ED3;&#x5E93;&#x4E0E;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x5668;&#x5BB9;&#x6613;&#x6DF7;&#x6DC6;&#xFF0C;&#x4ED3;&#x5E93;&#x548C;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x5668;&#x662F;&#x4E0D;&#x540C;&#x7684;&#xFF0C;&#x4ED3;&#x5E93;&#x662F;&#x5B58;&#x653E;&#x591A;&#x4E2A;&#x955C;&#x50CF;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x800C;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x5668;&#x5219;&#x662F;&#x5B58;&#x653E;&#x591A;&#x4E2A;&#x4ED3;&#x5E93;&#x7684;&#x5730;&#x65B9;&#x3002;<a id="more"></a>&#x6BD4;&#x5982;&#x4ED3;&#x5E93;&#x5730;&#x5740;&#xFF1A;<br>dl.dockerpool.com/ubuntu  dl.dockerpool.com&#x4E3A;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x5668;&#x5730;&#x5740;&#xFF0C;&#x800C;ubuntu&#x4E3A;&#x4ED3;&#x5E93;&#x540D;&#x3002;</p>
+<h2 id="1-Docker-hub"><a href="#1-Docker-hub" class="headerlink" title="1.Docker hub"></a>1.Docker hub</h2><p>&#x4F7F;&#x7528;docker search name &#x53EF;&#x4EE5;&#x4ECE;docker hub&#x7F51;&#x7AD9;&#x641C;&#x7D22;&#x955C;&#x50CF;&#xFF0C;&#x4F7F;&#x7528;docker pull&#x547D;&#x4EE4;&#xFF0C;&#x4ECE;docker hub&#x4E0A;&#x5C06;&#x955C;&#x50CF;&#x4E0B;&#x8F7D;&#x5230;&#x672C;&#x5730;&#x3002;<br><img src="/2016/12/08/docker-5/img/1.png" alt=""><br><img src="/2016/12/08/docker-5/img/2.png" alt=""><br><img src="/2016/12/08/docker-5/img/3.png" alt=""></p>
+<h2 id="2-docker-pool&#x793E;&#x533A;&#x7B80;&#x4ECB;"><a href="#2-docker-pool&#x793E;&#x533A;&#x7B80;&#x4ECB;" class="headerlink" title="2.docker pool&#x793E;&#x533A;&#x7B80;&#x4ECB;"></a>2.docker pool&#x793E;&#x533A;&#x7B80;&#x4ECB;</h2><p>&#x56FD;&#x5185;&#x7684;docker&#x6280;&#x672F;&#x793E;&#x533A;&#xFF1A;dockerpool.com&#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x591A;&#x5B98;&#x65B9;&#x7684;&#x955C;&#x50CF;&#x4E0B;&#x8F7D;&#x670D;&#x52A1;&#x3002;<br>&#x4F7F;&#x7528;docker pull&#x547D;&#x4EE4; &#x4ECE;&#x4E0D;&#x540C;&#x7684;docker&#x955C;&#x50CF;&#x670D;&#x52A1;&#x7F51;&#x7AD9;&#x4E0B;&#x8F7D;docker&#x955C;&#x50CF;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x5668;&#x7684;&#x5730;&#x5740;&#x4EE5;&#x53CA;&#x5F85;&#x4E0B;&#x8F7D;&#x955C;&#x50CF;&#x7684;&#x4ED3;&#x5E93;&#x5730;&#x5740;<br>&#x6BD4;&#x5982;&#xFF1A; docker pull docker.pool.com:5000/ubuntu<br>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;docker tag&#x547D;&#x4EE4;&#x6765;&#x66F4;&#x65B0;&#x955C;&#x50CF;&#x7684;&#x6807;&#x7B7E;&#xFF0C;&#x4E0E;&#x5B98;&#x65B9;&#x955C;&#x50CF;&#x7684;&#x6807;&#x7B7E;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;&#x76EE;&#x524D;&#xFF0C;&#x963F;&#x91CC;&#x4E91;&#x7B49;&#x5E94;&#x7528;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x5546;&#x4E5F;&#x63D0;&#x4F9B;&#x4E86;docker&#x7684;&#x955C;&#x50CF;&#x4E0B;&#x8F7D;&#x670D;&#x52A1;&#x3002;</p>
+<h2 id="3-&#x521B;&#x5EFA;&#x548C;&#x4F7F;&#x7528;&#x79C1;&#x6709;&#x4ED3;&#x5E93;"><a href="#3-&#x521B;&#x5EFA;&#x548C;&#x4F7F;&#x7528;&#x79C1;&#x6709;&#x4ED3;&#x5E93;" class="headerlink" title="3. &#x521B;&#x5EFA;&#x548C;&#x4F7F;&#x7528;&#x79C1;&#x6709;&#x4ED3;&#x5E93;"></a>3. &#x521B;&#x5EFA;&#x548C;&#x4F7F;&#x7528;&#x79C1;&#x6709;&#x4ED3;&#x5E93;</h2><h3 id="A-&#x4F7F;&#x7528;registry&#x955C;&#x50CF;&#x521B;&#x5EFA;&#x4ED3;&#x5E93;&#xFF0C;docker-pull-registry-&#x4E0B;&#x8F7D;-registry&#x955C;&#x50CF;"><a href="#A-&#x4F7F;&#x7528;registry&#x955C;&#x50CF;&#x521B;&#x5EFA;&#x4ED3;&#x5E93;&#xFF0C;docker-pull-registry-&#x4E0B;&#x8F7D;-registry&#x955C;&#x50CF;" class="headerlink" title="A.&#x4F7F;&#x7528;registry&#x955C;&#x50CF;&#x521B;&#x5EFA;&#x4ED3;&#x5E93;&#xFF0C;docker pull registry &#x4E0B;&#x8F7D; registry&#x955C;&#x50CF;"></a>A.&#x4F7F;&#x7528;registry&#x955C;&#x50CF;&#x521B;&#x5EFA;&#x4ED3;&#x5E93;&#xFF0C;docker pull registry &#x4E0B;&#x8F7D; registry&#x955C;&#x50CF;</h3><h3 id="B-&#x521B;&#x5EFA;&#x5E76;&#x542F;&#x52A8;&#x5BB9;&#x5668;&#xFF0C;-&#x7ED1;&#x5B9A;&#x5BBF;&#x4E3B;&#x673A;&#x7684;5000&#x7AEF;&#x53E3;&#x5230;&#x5BB9;&#x5668;&#x7684;5000&#x7AEF;&#x53E3;&#xFF0C;-&#x6302;&#x8F7D;&#x672C;&#x5730;&#x76EE;&#x5F55;-opt-data-registry-&#x5230;-tmp-registry"><a href="#B-&#x521B;&#x5EFA;&#x5E76;&#x542F;&#x52A8;&#x5BB9;&#x5668;&#xFF0C;-&#x7ED1;&#x5B9A;&#x5BBF;&#x4E3B;&#x673A;&#x7684;5000&#x7AEF;&#x53E3;&#x5230;&#x5BB9;&#x5668;&#x7684;5000&#x7AEF;&#x53E3;&#xFF0C;-&#x6302;&#x8F7D;&#x672C;&#x5730;&#x76EE;&#x5F55;-opt-data-registry-&#x5230;-tmp-registry" class="headerlink" title="B.&#x521B;&#x5EFA;&#x5E76;&#x542F;&#x52A8;&#x5BB9;&#x5668;&#xFF0C; &#x7ED1;&#x5B9A;&#x5BBF;&#x4E3B;&#x673A;&#x7684;5000&#x7AEF;&#x53E3;&#x5230;&#x5BB9;&#x5668;&#x7684;5000&#x7AEF;&#x53E3;&#xFF0C; &#x6302;&#x8F7D;&#x672C;&#x5730;&#x76EE;&#x5F55;/opt/data/registry &#x5230; /tmp/registry"></a>B.&#x521B;&#x5EFA;&#x5E76;&#x542F;&#x52A8;&#x5BB9;&#x5668;&#xFF0C; &#x7ED1;&#x5B9A;&#x5BBF;&#x4E3B;&#x673A;&#x7684;5000&#x7AEF;&#x53E3;&#x5230;&#x5BB9;&#x5668;&#x7684;5000&#x7AEF;&#x53E3;&#xFF0C; &#x6302;&#x8F7D;&#x672C;&#x5730;&#x76EE;&#x5F55;/opt/data/registry &#x5230; /tmp/registry</h3><p><img src="/2016/12/08/docker-5/img/4.png" alt=""><br>docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry<br>&#x67E5;&#x770B;registry&#x5BB9;&#x5668;&#x7684;IP&#x5730;&#x5740;&#xFF1A;</p>
+<p>docker inspect -f .NetworkSettings.IPAddress 06f7b19dc54f<br>172.17.0.6</p>
+<p>&#x4E3A;registry&#x5BB9;&#x5668;&#x91CD;&#x65B0;&#x6253;&#x4E00;&#x4E2A;tag&#xFF0C;&#x4FBF;&#x4E8E;&#x4F7F;&#x7528;&#x4E0E;&#x533A;&#x5206;<br><img src="/2016/12/08/docker-5/img/5.png" alt=""><br>&#x6D4B;&#x8BD5;&#x63D0;&#x4EA4;&#x955C;&#x50CF;&#x5230;&#x672C;&#x5730;&#x79C1;&#x6709;&#x4ED3;&#x5E93;, &#x63D0;&#x4EA4;&#x65F6;&#x62A5;&#x9519;&#x5982;&#x4E0B;&#xFF1A;<br><img src="/2016/12/08/docker-5/img/6.png" alt=""></p>
+<h2 id="4-Centos7&#x4E0A;-&#x5B89;&#x88C5;docker&#x5E76;&#x642D;&#x5EFA;docker&#x7684;&#x79C1;&#x6709;&#x4ED3;&#x5E93;"><a href="#4-Centos7&#x4E0A;-&#x5B89;&#x88C5;docker&#x5E76;&#x642D;&#x5EFA;docker&#x7684;&#x79C1;&#x6709;&#x4ED3;&#x5E93;" class="headerlink" title="4.Centos7&#x4E0A; &#x5B89;&#x88C5;docker&#x5E76;&#x642D;&#x5EFA;docker&#x7684;&#x79C1;&#x6709;&#x4ED3;&#x5E93;"></a>4.Centos7&#x4E0A; &#x5B89;&#x88C5;docker&#x5E76;&#x642D;&#x5EFA;docker&#x7684;&#x79C1;&#x6709;&#x4ED3;&#x5E93;</h2><pre><code>CentOS7&#x5B89;&#x88C5;docker&#x5219;&#x76F8;&#x5BF9;&#x6BD4;&#x8F83;&#x7B80;&#x5355;
+//yum&#x5B89;&#x88C5;docker
+1.yum install -y docker-io
+//&#x542F;&#x52A8;docker&#x670D;&#x52A1;
+2.service docker start
+//&#x5C06;docker&#x670D;&#x52A1;&#x8BBE;&#x7F6E;&#x4E3A;&#x5F00;&#x673A;&#x542F;&#x52A8;
+3.chkconfig docker on
+</code></pre><p>&#x5B89;&#x88C5;&#x5B8C;docker&#x4E4B;&#x540E;&#xFF0C;&#x642D;&#x5EFA;&#x79C1;&#x6709;&#x4ED3;&#x5E93;</p>
+<pre><code>1.&#x4E0B;&#x8F7D;registry&#x955C;&#x50CF;
+2.&#x6267;&#x884C;&#x547D;&#x4EE4;&#xFF1A;docker run -d -p 5000:5000 --name docker_registry -v /opt/data/docker/registry:/tmp/registry registry  &#x542F;&#x52A8;&#x79C1;&#x6709;&#x4ED3;&#x5E93;&#x5BB9;&#x5668;
+3.&#x6267;&#x884C;&#x547D;&#x4EE4;&#xFF1A; docker inspect -f {{&quot;.NetworkSettings.IPAddress&quot;}} &#x5BB9;&#x5668;ID &#x67E5;&#x770B;&#x79C1;&#x6709;&#x4ED3;&#x5E93;&#x5BB9;&#x5668;&#x7684;&#x5185;&#x7F51;ip&#x5730;&#x5740;
+4.&#x9ED8;&#x8BA4;&#x63D0;&#x4EA4;&#x4F1A;&#x63D0;&#x793A;https&#x76F8;&#x5173;&#x7684;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#xFF0C;centos7  1.10&#x7248;&#x672C;&#x7684;docker&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#x5728; /etc/sysconfig/docker
+</code></pre><p><img src="/2016/12/08/docker-5/img/7.png" alt=""><br>&#x5982;&#x4E0A;&#x56FE;&#x7684;&#x7EA2;&#x6846;&#x9009;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x5C06;&#x79C1;&#x6709;&#x4ED3;&#x5E93;&#x7684;&#x5730;&#x5740;&#x914D;&#x7F6E;&#x4E0A;&#x53BB;&#xFF0C;&#x4FDD;&#x5B58;&#x6587;&#x4EF6;&#x4E4B;&#x540E;&#xFF0C;&#x91CD;&#x542F;docker&#x670D;&#x52A1;&#xFF0C;systemctl restart docker </p>
+<h2 id="5-&#x6D4B;&#x8BD5;&#x63D0;&#x4EA4;docker&#x955C;&#x50CF;"><a href="#5-&#x6D4B;&#x8BD5;&#x63D0;&#x4EA4;docker&#x955C;&#x50CF;" class="headerlink" title="5.&#x6D4B;&#x8BD5;&#x63D0;&#x4EA4;docker&#x955C;&#x50CF;"></a>5.&#x6D4B;&#x8BD5;&#x63D0;&#x4EA4;docker&#x955C;&#x50CF;</h2><p>&#x5C06;&#x955C;&#x50CF;&#x5217;&#x8868;&#x4E2D;&#x7684;docker.io/centos&#x6253;&#x4E00;&#x4E2A;tag 172.17.0.2:5000/centos &#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="/2016/12/08/docker-5/img/8.png" alt=""><br>&#x6267;&#x884C;&#x955C;&#x50CF;&#x63D0;&#x4EA4;&#x547D;&#x4EE4;&#xFF1A;docker push 172.17.0.2:5000/centos</p>
+<p>&#x4E0E;&#x5BB9;&#x5668;&#x4EA4;&#x4E92;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0B;&#x8F7D;.bashrc_docker</p>
+<pre><code>$ wget -P ~ https://github.com/yeasy/docker_practice/raw/master/_local/.bashrc_docker;
+$ echo &quot;[ -f ~/.bashrc_docker ] &amp;&amp; . ~/.bashrc_docker&quot; &gt;&gt; ~/.bashrc; source ~/.bashrc
+&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x5F88;&#x591A;&#x65B9;&#x4FBF;&#x4F7F;&#x7528; Docker &#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4F8B;&#x5982; docker-pid &#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x67D0;&#x4E2A;&#x5BB9;&#x5668;&#x7684; PID&#xFF1B;&#x800C; docker-enter &#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x5BB9;&#x5668;&#x6216;&#x76F4;&#x63A5;&#x5728;&#x5BB9;&#x5668;&#x5185;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x3002;
+$ echo $(docker-pid &lt;container&gt;)
+$ docker-enter &lt;container&gt; ls
+$ docker-enter &lt;container&gt; bash
+</code></pre><p>&#x6700;&#x521D;&#x4F7F;&#x7528; curl <a href="http://172.17.0.2:5000/v1/search" target="_blank" rel="external">http://172.17.0.2:5000/v1/search</a> &#x6765;&#x8BBF;&#x95EE;&#xFF0C;&#x53D1;&#x73B0;&#x8FD4;&#x56DE;404 page not found&#x7684;&#x4FE1;&#x606F;<br>&#x5728;&#x7F51;&#x4E0A;&#x67E5;&#x627E;&#x7B54;&#x6848;&#x4E4B;&#x540E;&#xFF0C;&#x53D1;&#x73B0;&#xFF0C;&#x81EA;&#x5DF1;&#x642D;&#x5EFA;&#x7684;registry&#x4ED3;&#x5E93;&#xFF0C;&#x6765;&#x81EA;docker&#x5B98;&#x65B9;&#x7684;&#x6700;&#x65B0;&#x7248;&#x672C;&#x7684;&#x955C;&#x50CF;&#xFF0C;docker registry&#x5DF2;&#x7ECF;&#x4ECE;&#x6700;&#x521D;&#x7684;v1&#x5347;&#x7EA7;&#x5230;&#x4E86;v2&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5982;&#x4E0A;curl&#x7684;&#x8DEF;&#x5F84;&#x662F;&#x9519;&#x8BEF;&#x7684;&#xFF0C;<br>&#x6700;&#x65B0;&#x7684;&#x5730;&#x5740;&#x662F;&#x8FD9;&#x4E48;&#x4E2A;&#x6837;&#x5B50;&#xFF1A;curl <a href="http://172.17.0.2:5000/v2" target="_blank" rel="external">http://172.17.0.2:5000/v2</a>  &#x6216;&#x8005; curl <a href="http://172.17.0.2:5000/v2/{name}/tags/list" target="_blank" rel="external">http://172.17.0.2:5000/v2/{name}/tags/list</a><br><img src="/2016/12/08/docker-5/img/9.png" alt=""><br><img src="/2016/12/08/docker-5/img/10.png" alt=""></p>
+<p>v2&#x7684;&#x53D8;&#x66F4;&#x53EF;&#x4EE5;&#x53C2;&#x770B;git&#x5730;&#x5740;&#xFF1A;<a href="https://github.com/docker/docker/issues/9015" target="_blank" rel="external">https://github.com/docker/docker/issues/9015</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/12/08/docker-5/">第五章、Docker仓库</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 忆虎思甜 的个人博客">忆虎思甜</a></p>
+        <p><span>发布时间:</span>2016年12月08日 - 21时56分</p>
+        <p><span>最后更新:</span>2016年12月08日 - 22时24分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/08/docker-5/" title="第五章、Docker仓库">http://yoursite.com/2016/12/08/docker-5/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/12/08/docker-5/　　作者: 忆虎思甜" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/07/docker-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第四章、Docker容器</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Docker-hub"><span class="toc-number">1.</span> <span class="toc-text">1.Docker hub</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-docker-pool社区简介"><span class="toc-number">2.</span> <span class="toc-text">2.docker pool社区简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-创建和使用私有仓库"><span class="toc-number">3.</span> <span class="toc-text">3. 创建和使用私有仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-使用registry镜像创建仓库，docker-pull-registry-下载-registry镜像"><span class="toc-number">3.1.</span> <span class="toc-text">A.使用registry镜像创建仓库，docker pull registry 下载 registry镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-创建并启动容器，-绑定宿主机的5000端口到容器的5000端口，-挂载本地目录-opt-data-registry-到-tmp-registry"><span class="toc-number">3.2.</span> <span class="toc-text">B.创建并启动容器， 绑定宿主机的5000端口到容器的5000端口， 挂载本地目录/opt/data/registry 到 /tmp/registry</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Centos7上-安装docker并搭建docker的私有仓库"><span class="toc-number">4.</span> <span class="toc-text">4.Centos7上 安装docker并搭建docker的私有仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试提交docker镜像"><span class="toc-number">5.</span> <span class="toc-text">5.测试提交docker镜像</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/12/08/docker-5/" data-title="第五章、Docker仓库" data-url="http://yoursite.com/2016/12/08/docker-5/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"null"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/12/07/docker-4/" title="下一篇: 第四章、Docker容器">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/docker-5/">第五章、Docker仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/07/docker-4/">第四章、Docker容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/docker-3/">第三章、Docker镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/docker-2/">第二章、Docker的核心概念和安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/docker-1/">第一章、初始Docker</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 忆虎思甜
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
